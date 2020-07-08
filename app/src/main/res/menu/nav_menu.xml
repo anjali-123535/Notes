@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="@layout/content_main">
+        <item
+            android:id="@+id/nav_notes"
+            android:icon="@drawable/ic_note"
+            android:iconTint="@color/colorPrimary"
+            android:title="Notes" />
+        <item
+            android:id="@+id/nav_mark"
+            android:icon="@drawable/ic_star_blank"
+            android:iconTint="@color/colorPrimary"
+            android:title="Bookmark" />
+
+
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_share"
+            android:iconTint="@color/colorPrimary"
+            android:title="Share" />
+        <item
+            android:id="@+id/rate"
+            android:icon="@drawable/ic_rate"
+            android:title="Rate Us"
+            android:iconTint="@color/colorPrimary"/>
+
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/ic_logout"
+        android:title="Logout"
+        android:iconTint="@color/colorPrimary"/>
+</menu>

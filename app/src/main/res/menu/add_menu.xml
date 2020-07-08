@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="Save"
+        app:showAsAction="always"
+        android:id="@+id/save"/>
+    <item android:title="attach"
+        android:id="@+id/attach"
+        android:icon="@drawable/ic_attach"
+        app:showAsAction="always"/>
+    <item android:title="attach"
+        android:id="@+id/cancel"
+        android:icon="@drawable/ic_close"
+        app:showAsAction="always"/>
+</menu>

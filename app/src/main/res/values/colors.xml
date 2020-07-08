@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff4000</color>
+    <color name="colorPrimaryDark">#c92418</color>
+    <color name="colorAccent">#ff0000</color>
+
+    <!-- Colors for gradient.xml file -->
+    <color name="gradient_center_color">#880d0d0f</color>
+    <color name="gradient_end_color">#885E5E5D</color>
+    <color name="gradient_start_color">#880f0f10</color>
+    <color name="transparent">#00000000</color>
+</resources>
