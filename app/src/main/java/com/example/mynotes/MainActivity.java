@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     RecyclerView recyclerView;
-    Adapter adapter;
     FirestoreRecyclerAdapter<Note, NoteViewHolder> noteAdapter;
     FirebaseFirestore firestore;
     FirestoreRecyclerOptions<Note> notesList;
@@ -197,7 +196,7 @@ void DeleteNote(String id)
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_mark:
-                query=firestore.collection("notes").whereEqualTo("bookmark",true).orderBy("updated");
+               // query=firestore.collection("notes").whereEqualTo("bookmark",true).orderBy("updated");
                 Log.d(TAG_NAME,"bookmark clicked");
                 break;
             default:
