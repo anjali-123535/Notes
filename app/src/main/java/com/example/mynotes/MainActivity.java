@@ -1,3 +1,18 @@
+/*
+ *
+ *   Created Anjali Parihar on 20/6/21 7:45 PM
+ *   Copyright Ⓒ 2021. All rights reserved Ⓒ 2021 http://freefuninfo.com/
+ *   Last modified: 20/6/21 7:22 PM
+ *
+ *   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+ *   except in compliance with the License. You may obtain a copy of the License at
+ *   http://www.apache.org/licenses/LICENS... Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ *    either express or implied. See the License for the specific language governing permissions and
+ *    limitations under the License.
+ * /
+ */
+
 package com.example.mynotes;
 
 import android.content.DialogInterface;
@@ -21,6 +36,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,62 +68,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FirestoreRecyclerAdapter<Note, NoteViewHolder> noteAdapter;
     FirebaseFirestore firestore;
     FirestoreRecyclerOptions<Note> notesList;
+    CardView cardView;
     private  static final String TAG_NAME=MainActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         firestore = FirebaseFirestore.getInstance();
-        Log.d(TAG_NAME,"in OnCreate()");
-         query = firestore.collection("notes").orderBy("created", Query.Direction.DESCENDING);
-       // Query q=firestore.collection(("notes")
-         notesList = new FirestoreRecyclerOptions.Builder<Note>().setQuery(query, Note.class).build();
+        cardView=findViewById(R.id.cardview_item);
+        recyclerView = findViewById(R.id.recycler);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
         fab = findViewById(R.id.fab);
+
+        Log.d(TAG_NAME,"in OnCreate()");
+
+         query = firestore.collection("notes").orderBy("created", Query.Direction.DESCENDING);
+       // Query q=firestore.collection(("notes")
+        notesList = new FirestoreRecyclerOptions.Builder<Note>().setQuery(query, Note.class).build();
         //fab.setVisibility(View.INVISIBLE);
-        setSupportActionBar(toolbar);
+
         navigationView.setNavigationItemSelectedListener(this);
         toolbar.setTitle("My Notes");
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        recyclerView = findViewById(R.id.recycler);
-
-      /*  ArrayList<String> titles = new ArrayList<>(Arrays.asList("one", "two", "three", "four", "five", "six", "six", "six", "six", "six", "six", "six", "six", "six"));
-        ArrayList<String> contents = new ArrayList<>
-                (Arrays.asList("ljdfkngljiorj",
-                        "lkjrgouejkejfoieurjen;iuepjkejfioejrkeiujehroi",
-                        "jkhiufhenmbfkjhfnbiuhfbjhfbkjhgjfb",
-                        "jhfhwhbfuehbhgbrjhehiufhhjrei9830928302849749mgfgmd,fglkmg;lbkdgm;lfkm,dglkgkndlgkdlkf;sdkg;sdg;" +
-                                "kgkfmkgf;lkgkgl;fdkgmlkb;lnsgjp[o[perk;lmsf2154878321248675612114789654123654479;kldkfglkdf" +
-                                ";lkfgkldkfp[orfdkll;fjklasmnnvbghjtioprlkdsm,zxmcmskdfoiroweksdfmklxnfljdftirjpoweirkoskdfndmgnkdfjgdlkfldkm,vbkljfglkg",
-                        "ljfhghejkhuihkjhfiuwhihi",
-                        "jkhehfuehiuehrtbjkehguhejfheughlr",
-                        "lkjrgouejkejfoieurjen;iuepjkejfioejrkeiujehroi",
-                        "lkjrgouejkejfoieurjen;iuepjkejfioejrkeiujehroi",
-                        "lkjrgouejkejfoieurjen;iuepjkejfioejrkeiujehroi",
-                        "lkjrgouejkejfoieurjen;iuepjkejfioejrkeiujehroi",
-                        "lkjrgouejkejfoieurjen;iuepjkejfioejrkeiujehroi",
-                        "lkjrgouejkejfoieurjen;iuepjkejfioejrkeiujehroi",
-                        "lkjrgouejkejfoieurjen;iuepjkejfioejrkeiujehroi",
-                        "lkjrgouejkejfoieurjen;iuepjkejfioejrkeiujehroi"));
-        adapter = new Adapter(titles, contents);*/
 
         noteAdapter = new FirestoreRecyclerAdapter<Note, NoteViewHolder>(notesList) {
             @Override
             protected void onBindViewHolder(@NonNull NoteViewHolder noteViewHolder, int i, @NonNull final Note note) {
+
                 noteViewHolder.title.setText(note.getTitle());
                 noteViewHolder.note.setText(note.getNote());
                 noteViewHolder.created.setText("created: "+note.getCreated().substring(0,11)+" / ");
                 noteViewHolder.updated.setText("updated: "+note.getUpdated().substring(0,11));
+
+                //change the colour of cardview if the note is bookmarked
+//                if(note.getMark())
+//                    cardView.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright));
+
                 final String id= notesList.getSnapshots().getSnapshot(i).getId();
+
                 noteViewHolder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(view.getContext(), "holder is clicked", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(view.getContext(), "holder is clicked", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(view.getContext(), DetailsActivity.class);
                        // intent.putExtra("title", note.getTitle());
                         //intent.putExtra("note", note.getNote());
@@ -115,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         view.getContext().startActivity(intent);
                     }
                 });
+
                 noteViewHolder.popup.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -128,11 +137,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                         });
                         menu.show();
-
                     }
                 });
             }
-
             @NonNull
             @Override
             public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -141,22 +148,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
 
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(noteAdapter);
 
-
+        // FloatingAction Button, when clicked will navigate to AddActivity to create note
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AddActivity.class);
                 intent.putExtra("fab","null");
                 startActivity(intent);
-
             }
         });
         Log.d(TAG_NAME,"onCreate is called");
     }
+
+    //delete note confirmation dialog box
     void showDeleteConfirmationDialog(final String id)
     {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
@@ -177,21 +184,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AlertDialog alertDialog=builder.create();
         alertDialog.show();
     }
+
+    //DeleteNote method get invoked when user selects delete option to delete the note
 void DeleteNote(String id)
 {
     DocumentReference reference=firestore.collection("notes").document(id);
     reference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
         @Override
         public void onSuccess(Void aVoid) {
-            Toast.makeText(getApplicationContext(), "Successfully deleted", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Successfully deleted", Toast.LENGTH_SHORT).show();
         }
     }).addOnFailureListener(new OnFailureListener() {
         @Override
         public void onFailure(@NonNull Exception e) {
-            Toast.makeText(getApplicationContext(), "DELETION FAILED", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "DELETION FAILED", Toast.LENGTH_SHORT).show();
         }
     });
 }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -200,7 +210,7 @@ void DeleteNote(String id)
                 Log.d(TAG_NAME,"bookmark clicked");
                 break;
             default:
-                Toast.makeText(this, "item isclicked", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(this, "item isclicked", Toast.LENGTH_SHORT).show();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
