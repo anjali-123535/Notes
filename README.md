@@ -17,6 +17,9 @@ AND LIST THE NOTES.
 <img src="images/device-2020-12-23-8.png" height="300" width="150">
 <img src="images/device-2020-12-23-9.png" height="300" width="150">
 
+### Sample video
+#### https://drive.google.com/file/d/1wRJw5WjnKdQlGm9Yw5aLqVFDx1-gjyZ-/view?usp=sharing
+
 ## Installation
 Clone this repository and import into **Android Studio**
 ```bash
